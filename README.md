@@ -1,2 +1,2 @@
 # MasonGeoportal
-Opengeoportal for George Mason University
+OpenGeoportal for George Mason University
