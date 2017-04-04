@@ -8,5 +8,6 @@
  - [x] Set WFS Service Layer to 'basic' - setting it to 'transactional' or 'complete' allows data to be modified by clients.
  - [x] Caching Defaults: Selected 'Enable direct integration with GeoServer WMS'
  - [ ] Access rules for Geoserver layers
+ - [x] Setup Solr Data Import Handler
  
  
