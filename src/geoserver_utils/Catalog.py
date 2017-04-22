@@ -43,9 +43,11 @@ class CatalogUtils:
         if name is None:
             name = os.path.split(data)[-1]
             if name.endswith('.zip') or name.endswith('.shp'):
-                name = name[:name.rindex('.')]
+                name = "GMU"+name[:name.rindex('.')]
+                print name
 
         if self.store_exists(name):
+            print "Store exists", name
             raise Exception("A store with this name already exists... please change the name.")
 
         if data.endswith('.shp'):
