@@ -79,16 +79,12 @@ class RepairFromMetadata:
         if 'Bounds' in suspicious:
             bounds = extract.get_bounds()
             RepairFromMetadata.update_layer(layer, bounds)
-
         if 'Location' in suspicious:
             links = extract.get_links()
             if links is not None:
                 layer['Location'] = json.dumps(links)
-
-
         if 'DataType' in suspicious:
             RepairFromMetadata.update_layer(layer, extract.get_datatype())
-
         if 'LayerDisplayName' in suspicious:
             title = extract.get_title()
             RepairFromMetadata.update_layer(layer, title)
