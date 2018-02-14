@@ -18,7 +18,7 @@ def find_shapefiles(path):
     shpfiles = {}
     for dirpath, subdirs, files in os.walk(path):
         for x in files:
-            if x.endswith(".zip"):
+            if x.endswith(".shp"):
                 name = os.path.splitext(x)[0]
                 shpfiles[name] = os.path.join(dirpath, x)
     for shp in shpfiles.keys():
@@ -28,12 +28,11 @@ def find_shapefiles(path):
     print shpfiles
 
 
-# def edit_layers(workspace):
-#     cat = Catalog("http://localhost:8080/geoserver/rest", username="admin", password="bhavika1992")
-#     r = cat.get_resources(store="GMUPrivate_Open_Spaces", workspace=workspace)
-#     layers = cat.get_layers(r)
+def edit_layers(workspace):
+    cat = Catalog("http://localhost:8080/geoserver/rest", username="admin", password="bhavika1992")
+    r = cat.get_resources(store="mapstore", workspace=workspace)
+    layers = cat.get_layers(r)
 
 find_shapefiles(alexandria_2007_path)
-# edit_layers("GMUGeodata")
 
-# print c.store_exists("GMUBLDG")
+print c.store_exists("mapstore")

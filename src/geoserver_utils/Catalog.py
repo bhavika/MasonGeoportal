@@ -67,5 +67,5 @@ class CatalogUtils:
             if ws is None:
                 raise Exception("No default workspace found!")
         print('adding: ' + name)
-        self.cat.create_featurestore(name=name, data=data, workspace=ws)
-        return self.cat.get_store(name)
+        self.cat.create_featurestore(name="GMU"+name, data=data, workspace=ws)
+        return self.cat.get_store("GMU"+name)
