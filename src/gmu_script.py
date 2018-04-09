@@ -10,7 +10,7 @@ campus = "/media/bhavika/Bhavika/BHAVIKA/Geodata/all/campus"
 fairfax_county_path = "/media/bhavika/Bhavika/BHAVIKA/Geodata/all/Fairfax_County"
 
 # c = CatalogUtils(url="http://localhost:8080/geoserver/rest", user="", pw="")
-c = CatalogUtils(url="http:///geoserver/rest", user="", pw="")
+c = CatalogUtils(url="http://52.200.35.9/geoserver/rest", user="", pw="")
 
 
 def find_shapefiles(path):
@@ -28,7 +28,7 @@ def find_shapefiles(path):
 
 
 def edit_layers(workspace):
-    cat = Catalog("http:///geoserver/rest", username="", password="")
+    cat = Catalog("http://52.200.35.9/geoserver/rest", username="", password="")
     r = cat.get_resources(store="geodata", workspace=workspace)
     print(r)
 
