@@ -6,41 +6,77 @@ to make them compliant with ogpIngest and Solr.
 
 from lxml import etree
 import os
-from Tkinter import *
+import pickle
 
 input_basepath = '/home/bhavika/Desktop/GIS/Metadata OGP/Alexandria_2007_DataCD/fgdc_output'
 output_path = 'home/bhavika/Desktop/GIS/Metadata OGP/Alexandria_2007_DataCD/ogpIngest_fgdc'
+metadata_path = '../metadata/'
+
+tags = ['//abstract', '//srccitea', '//origin', '//purpose', '//publish', '//ftname', '//caldate', '//themekt',
+        '//themekey', '//onlink']
+
+citeinfo_tags = ['//srccitea', '//origin', '//purpose', '//publish', '//ftname', '//onlink']
+theme_tags = ['//themekt', '//themekey']
 
 
-tags = ['//abstract', '//srccitea', '//origin', '//purpose', '//publish', '//caldate', '//themekt', '//themekey',
-        '//onlink']
+def save_input_attributes(obj, name):
+    with open(name+'.pkl', 'wb') as f:
+        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
 
-def edit_file(path):
-    def enter_input(tb):
-        text = tb.get('1.0', 'end-1c')
-        print(text)
+def load_input_attributes(name):
+    with open(metadata_path + name + '.pkl', 'rb') as f:
+        return pickle.load(f)
 
+
+def get_missing_attributes(path):
     for dirpath, subdirs, files in os.walk(path):
         for f in files:
             p = os.path.join(input_basepath, f)
             doc = etree.parse(p)
 
             print(f)
+            attributes = {}
 
             for t in tags:
                 if doc.find(t) is None:
-                    print(t)
-                    root = Tk()
-                    tb = Text(root, height=10, width=50)
-                    tb.pack()
-                    btn = Button(root, height=2, width=10, text='Commit', command=enter_input(tb))
-                    btn.pack()
-                    root.mainloop()
+                    print("Enter input for {}".format(t))
+                    input_text = raw_input()
+                    attributes[t] = input_text
                     # print(t, doc.findtext(t) if doc.find(t) is not None else "{} not found.".format(t))
+            print(attributes)
+            save_input_attributes(attributes, f)
 
 
-edit_file(input_basepath)
+# get_missing_attributes(input_basepath)
+
+def create_fgdc_metadata(path):
+    for dirpath, subdirs, files in os.walk(path):
+        for f in files:
+            p = os.path.join(input_basepath, f)
+            doc = etree.parse(p)
+
+            new_attributes = load_input_attributes(f)
+
+            for k, v in new_attributes.items():
+                key = k[2:]
+                el = etree.Element(key)
+                el.text = v
+
+                if k in citeinfo_tags:
+                    root = doc.find('//citeinfo')
+                # elif k in theme_tags:
+                #     root = doc.findall('.//theme').tag
+
+                if root:
+                    root.append(el)
+                    # for el in root.iter(tag=etree.Element):
+                    #     print(el.tag, el.text)
+                else:
+                    print(etree.tostring(doc))
 
 
-
+create_fgdc_metadata(input_basepath)
+# x = load_input_attributes('TrueZip_y_Original.xml')
+#
+# print(x)
