@@ -12,8 +12,8 @@ input_basepath = '/home/bhavika/Desktop/GIS/Metadata OGP/Alexandria_2007_DataCD/
 output_path = '/home/bhavika/Desktop/GIS/Metadata OGP/Alexandria_2007_DataCD/ogpIngest_fgdc'
 metadata_path = '../metadata/'
 
-tags = ['//abstract', '//srccitea', '//origin', '//purpose', '//publish', '//ftname', '//caldate', '//themekt',
-        '//themekey', '//onlink']
+tags = ['//abstract', '//srccitea', '//origin', '//purpose', '//publish', '//caldate', '//themekt',
+        '//themekey', '//onlink', '//ftname']
 
 citeinfo_tags = ['//srccitea', '//origin', '//purpose', '//publish', '//ftname', '//onlink']
 theme_tags = ['//themekt', '//themekey']
@@ -63,16 +63,21 @@ def create_fgdc_metadata(path):
 
                 if k in citeinfo_tags:
                     root = doc.find('//citeinfo')
+
                 # elif k in theme_tags:
                 #     root = doc.findall('.//theme').tag
 
                 if root:
                     root.append(el)
+                    fname_start_idx = f.find('_Original.xml')
+                    fname = f[0:fname_start_idx]
+                    ftname_el = etree.Element('ftname', Sync='TRUE')
+                    ftname_el.text = fname.upper()
+                    root.append(ftname_el)
                     # for el in root.iter(tag=etree.Element):
                     #     print(el.tag, el.text)
                 else:
-                    print(f)
-            print(f)
+                    print("No root found :", f)
 
             with open(os.path.join(output_path, f), 'w') as f:
                 f.write(etree.tostring(doc))
