@@ -7,10 +7,13 @@ to make them compliant with ogpIngest and Solr.
 from lxml import etree
 import os
 import pickle
+from dotenv import load_dotenv
 
-input_basepath = '/home/bhavika/Desktop/GIS/Metadata OGP/Alexandria_2007_DataCD/fgdc_output'
-output_path = '/home/bhavika/Desktop/GIS/Metadata OGP/Alexandria_2007_DataCD/ogpIngest_fgdc'
-metadata_path = '../metadata/'
+load_dotenv('../.env')
+
+input_basepath = str(os.environ['ALEXANDRIA_2007_PATH']+os.environ['INPUT_BASEPATH'])
+output_path = str(os.environ['ALEXANDRIA_2007_PATH']+os.environ['OUTPUT_PATH'])
+metadata_path = str(os.environ['METADATA_PATH'])
 
 tags = ['//abstract', '//srccitea', '//origin', '//purpose', '//publish', '//caldate', '//themekt',
         '//themekey', '//onlink', '//ftname']
