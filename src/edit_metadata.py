@@ -9,7 +9,7 @@ import os
 import pickle
 
 input_basepath = '/home/bhavika/Desktop/GIS/Metadata OGP/Alexandria_2007_DataCD/fgdc_output'
-output_path = 'home/bhavika/Desktop/GIS/Metadata OGP/Alexandria_2007_DataCD/ogpIngest_fgdc'
+output_path = '/home/bhavika/Desktop/GIS/Metadata OGP/Alexandria_2007_DataCD/ogpIngest_fgdc'
 metadata_path = '../metadata/'
 
 tags = ['//abstract', '//srccitea', '//origin', '//purpose', '//publish', '//ftname', '//caldate', '//themekt',
@@ -48,8 +48,6 @@ def get_missing_attributes(path):
             save_input_attributes(attributes, f)
 
 
-# get_missing_attributes(input_basepath)
-
 def create_fgdc_metadata(path):
     for dirpath, subdirs, files in os.walk(path):
         for f in files:
@@ -73,10 +71,12 @@ def create_fgdc_metadata(path):
                     # for el in root.iter(tag=etree.Element):
                     #     print(el.tag, el.text)
                 else:
-                    print(etree.tostring(doc))
+                    print(f)
+            print(f)
+
+            with open(os.path.join(output_path, f), 'w') as f:
+                f.write(etree.tostring(doc))
 
 
+# get_missing_attributes(input_basepath)
 create_fgdc_metadata(input_basepath)
-# x = load_input_attributes('TrueZip_y_Original.xml')
-#
-# print(x)
