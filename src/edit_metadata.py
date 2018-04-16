@@ -11,9 +11,17 @@ from dotenv import load_dotenv
 
 load_dotenv('../.env')
 
-input_basepath = str(os.environ['ALEXANDRIA_2007_PATH']+os.environ['INPUT_BASEPATH'])
-output_path = str(os.environ['ALEXANDRIA_2007_PATH']+os.environ['OUTPUT_PATH'])
+# input_basepath = str(os.environ['ALEXANDRIA_2007_PATH']+os.environ['INPUT_BASEPATH'])
+# output_path = str(os.environ['ALEXANDRIA_2007_PATH']+os.environ['OUTPUT_PATH'])
+# metadata_path = str(os.environ['METADATA_PATH'])
+
+input_basepath = str(os.environ['ARLINGTON_2004_PATH']+os.environ['INPUT_BASEPATH'])
+output_path = str(os.environ['ARLINGTON_2004_PATH']+os.environ['OUTPUT_PATH'])
 metadata_path = str(os.environ['METADATA_PATH'])
+
+print(input_basepath)
+print(output_path)
+print(metadata_path)
 
 tags = ['//abstract', '//srccitea', '//origin', '//purpose', '//publish', '//caldate', '//themekt',
         '//themekey', '//onlink', '//ftname']
@@ -72,7 +80,7 @@ def create_fgdc_metadata(path):
 
                 if root:
                     root.append(el)
-                    fname_start_idx = f.find('_Original.xml')
+                    fname_start_idx = f.find('_FGDC.xml')
                     fname = f[0:fname_start_idx]
                     ftname_el = etree.Element('ftname', Sync='TRUE')
                     ftname_el.text = fname.upper()
@@ -82,9 +90,9 @@ def create_fgdc_metadata(path):
                 else:
                     print("No root found :", f)
 
-            with open(os.path.join(output_path, f), 'w') as f:
+            with open(os.path.join(output_path, f), 'wb') as f:
                 f.write(etree.tostring(doc))
 
 
-# get_missing_attributes(input_basepath)
-create_fgdc_metadata(input_basepath)
+get_missing_attributes(input_basepath)
+# create_fgdc_metadata(input_basepath)
